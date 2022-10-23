@@ -3,3 +3,6 @@ notes.txt
 tmp.ipynb
 sample_results.csv
 __pycache__
+results.csv
+venv/
+votes_info.csv

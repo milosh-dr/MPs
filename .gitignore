@@ -1,8 +1,8 @@
 MPs-checkpoint.ipynb
-notes.txt
+*.txt
+*.csv
+test.py
 tmp.ipynb
-sample_results.csv
 __pycache__
-results.csv
 venv/
 votes_info.csv

@@ -74,17 +74,33 @@ def get_votes_info(sessions):
 def get_results(votes):
     '''Takes list of dictionaries with votes info and returns DataFrame including all corresponding results'''
     vote_dfs = []
-    for i, vote_dict in enumerate(votes):
+    try:
+        with open('status.txt', 'r') as file:
+            status = file.read()
+            if status=='Done':
+                return
+            start = int(status)
+    except:
+        start = 0
+    for i in range(start,len(votes)):
         
-
         # Go to the current vote url
         time.sleep(1)
-        req = requests.get(vote_dict['vote_url'])
-        soup = BeautifulSoup(req.text, 'html.parser')
+        try:
+            req = requests.get(votes[i]['vote_url'])
+            soup = BeautifulSoup(req.text, 'html.parser')
+        except:
+            print('Problem with retrieving page no: {} (at vote level)'.format(i))
+            with open('status.txt', 'w') as file:
+                file.write(str(i))
+            if not vote_dfs:
+                return
+            return pd.concat(vote_dfs, axis=1)
+            
         parties = soup.find_all('td', class_='left')
 
         # Create empty df for current vote
-        cols=['Party', 'MPS', f"{vote_dict['session_no']}/{vote_dict['vote_no']}"]
+        cols=['Party', 'MPS', f"{votes[i]['session_no']}/{votes[i]['vote_no']}"]
         if i!=0:
             cols=cols[-1:]
         vote_df = pd.DataFrame(columns=cols)
@@ -95,8 +111,16 @@ def get_results(votes):
 
             # Go to current party results url
             time.sleep(1)
-            req = requests.get(os.path.join(home, party.a['href']))
-            soup = BeautifulSoup(req.text, 'html.parser')
+            try:
+                req = requests.get(os.path.join(home, party.a['href']))
+                soup = BeautifulSoup(req.text, 'html.parser')
+            except:
+                print('Problem with retrieving page no: {} (at party-{} level)'.format(i, party_name))
+                with open('status.txt', 'w') as file:
+                    file.write(str(i))
+                if not vote_dfs:
+                    return
+                return pd.concat(vote_dfs, axis=1) 
 
             # Get mp names
             mps = soup.find_all('td', class_='left', style='')
@@ -110,6 +134,9 @@ def get_results(votes):
 
         # Add vote to the list
         vote_dfs.append(vote_df)
+    print('All done!')
+    with open('status.txt', 'w') as file:
+        file.write('Done')
     return pd.concat(vote_dfs, axis=1)
 
 def import_data():

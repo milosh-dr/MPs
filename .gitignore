@@ -6,3 +6,4 @@ tmp.ipynb
 __pycache__
 venv/
 votes_info.csv
+.ipynb_checkpoints/

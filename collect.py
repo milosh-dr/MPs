@@ -71,7 +71,7 @@ def get_votes_info(sessions):
     return all_votes
 
 
-def get_results(votes):
+def get_results(votes, sleep_time=1):
     '''Takes list of dictionaries with votes info and returns DataFrame including all corresponding results'''
     vote_dfs = []
     try:
@@ -85,7 +85,7 @@ def get_results(votes):
     for i in range(start,len(votes)):
         
         # Go to the current vote url
-        time.sleep(1)
+        time.sleep(sleep_time)
         try:
             req = requests.get(votes[i]['vote_url'])
             soup = BeautifulSoup(req.text, 'html.parser')
@@ -110,7 +110,7 @@ def get_results(votes):
             party_name = party.a.text
 
             # Go to current party results url
-            time.sleep(1)
+            time.sleep(sleep_time)
             try:
                 req = requests.get(os.path.join(home, party.a['href']))
                 soup = BeautifulSoup(req.text, 'html.parser')

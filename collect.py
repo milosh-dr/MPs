@@ -76,7 +76,7 @@ def get_results(votes, start=None, stop=None, sleep_time=1):
     vote_dfs = []
     if type(start) != int:
         try:
-            print('Start value not given. Loading the current status from...')
+            print('Start value not given. Loading the current status...')
             print('-'*30)
             with open('status.txt', 'r') as file:
                 status = file.read()

@@ -102,6 +102,8 @@ def get_results(votes, start=None, stop=None, sleep_time=1):
             soup = BeautifulSoup(req.text, 'html.parser')
         except:
             print('Problem with retrieving page no: {} (at vote level)'.format(i))
+            print(f'Problematic url: {votes[i]['vote_url']}')
+
             with open('status.txt', 'w') as file:
                 file.write(str(i))
             if not vote_dfs:
@@ -117,16 +119,19 @@ def get_results(votes, start=None, stop=None, sleep_time=1):
         vote_df = pd.DataFrame(columns=cols)
         
         for party in parties:
-            # Get party name
+            # Get party name and url
             party_name = party.a.text
+            party_url = os.path.join(home, party.a['href'])
 
             # Go to current party results url
             time.sleep(sleep_time)
             try:
-                req = requests.get(os.path.join(home, party.a['href']))
+                req = requests.get(party_url)
                 soup = BeautifulSoup(req.text, 'html.parser')
             except:
                 print('Problem with retrieving page no: {} (at party-{} level)'.format(i, party_name))
+                print(f'Problematic url: {party_url}')
+                
                 with open('status.txt', 'w') as file:
                     file.write(str(i))
                 if not vote_dfs:

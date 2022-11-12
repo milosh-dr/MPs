@@ -24,7 +24,7 @@ def main():
         for row in reader:
             all_votes.append(row)
 
-    results = collect.get_results(all_votes, start=1176, sleep_time=0)
+    results = collect.get_results(all_votes, start=1641, sleep_time=0)
     if results is None:
         # TODO: Run script that clears crontab and concatenate data from all files
         # TODO: Find a way to check if all is done or we didn't even start

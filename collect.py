@@ -102,7 +102,7 @@ def get_results(votes, start=None, stop=None, sleep_time=1):
             soup = BeautifulSoup(req.text, 'html.parser')
         except:
             print('Problem with retrieving page no: {} (at vote level)'.format(i))
-            print(f'Problematic url: {votes[i]['vote_url']}')
+            print(f"Problematic url: {votes[i]['vote_url']}")
 
             with open('status.txt', 'w') as file:
                 file.write(str(i))

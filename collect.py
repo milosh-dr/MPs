@@ -71,18 +71,29 @@ def get_votes_info(sessions):
     return all_votes
 
 
-def get_results(votes, sleep_time=1):
+def get_results(votes, start=None, stop=None, sleep_time=1):
     '''Takes list of dictionaries with votes info and returns DataFrame including all corresponding results'''
     vote_dfs = []
-    try:
-        with open('status.txt', 'r') as file:
-            status = file.read()
-            if status=='Done':
-                return
-            start = int(status)
-    except:
-        start = 0
-    for i in range(start,len(votes)):
+    if type(start) != int:
+        try:
+            print('Start value not given. Loading the current status from...')
+            print('-'*30)
+            with open('status.txt', 'r') as file:
+                status = file.read()
+                if status=='Done':
+                    print('All data has been already parsed.')
+                    return
+                start = int(status)
+                print(f'Current status: {start}')
+        except FileNotFoundError:
+            start = 0
+            print('Status file not in the path. Starting from the beginning.')
+
+    if not stop:
+        stop = len(votes)
+        print('Stop value not given. Trying to parse all data.')
+
+    for i in range(start, stop):
         
         # Go to the current vote url
         time.sleep(sleep_time)

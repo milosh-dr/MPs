@@ -1,7 +1,9 @@
-import collect
 import os
 import csv
+
 import pandas as pd
+
+import collect
 
 # home = 'https://www.sejm.gov.pl/sejm9.nsf/'
 local_path = '/home/milosh-dr/code/MPs'
@@ -9,6 +11,7 @@ local_path = '/home/milosh-dr/code/MPs'
 def main():
     files = os.listdir(local_path)
     if 'votes_info.csv' not in files:
+        print('No file with vote urls in the path. Starting to parse those...')
         all_sessions = collect.get_sessions_info()
         all_votes = collect.get_votes_info(all_sessions)
 
@@ -21,7 +24,7 @@ def main():
         for row in reader:
             all_votes.append(row)
 
-    results = collect.get_results(all_votes, sleep_time=0)
+    results = collect.get_results(all_votes, start=1176, sleep_time=0)
     if results is None:
         # TODO: Run script that clears crontab and concatenate data from all files
         # TODO: Find a way to check if all is done or we didn't even start

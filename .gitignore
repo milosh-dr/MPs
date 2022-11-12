@@ -7,3 +7,4 @@ __pycache__
 venv/
 votes_info.csv
 .ipynb_checkpoints/
+theme_modelling_prototype.ipynb

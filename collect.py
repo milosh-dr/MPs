@@ -151,9 +151,48 @@ def get_results(votes, start=None, stop=None, sleep_time=1):
         # Add vote to the list
         vote_dfs.append(vote_df)
     print('All done!')
-    with open('status.txt', 'w') as file:
+    with open(os.path.join(local_path, 'status.txt'), 'w') as file:
         file.write('Done')
     return pd.concat(vote_dfs, axis=1)
+
+
+def save(results):
+    if results is None:
+        print('No results to be saved')
+        return
+
+    # Check how many files with data already exist in the path
+    files = os.listdir(local_path)
+    i=0
+    for filename in files:
+        if filename.startswith('results'):
+            i+=1
+    results.to_csv(f'results_{i+1}.csv', index=False)
+    return
+
+
+def concatenate():
+    with open(os.path.join(local_path, 'status.txt'), 'r') as file:
+        if file.read().strip() != 'Done':
+            print("You miss some data...")
+            return
+    results = []
+    dfs = []
+    files = os.listdir(local_path)
+    for filename in files:
+        if filename.startswith('results'):
+            results.append(filename)
+
+    for filename in sorted(results):
+        df = pd.read_csv(filename)
+        dfs.append(df)
+    df = pd.concat(dfs, axis=1)
+    if 'final_results.csv' not in files:
+        df.to_csv('final_results.csv', index=False)
+    else:
+        print('File already exists.')
+    return df
+
 
 def import_data():
     '''Returns data from parliament's website'''

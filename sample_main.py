@@ -5,7 +5,6 @@ import pandas as pd
 
 import collect
 
-# home = 'https://www.sejm.gov.pl/sejm9.nsf/'
 local_path = '/home/milosh-dr/code/MPs'
 
 def main():

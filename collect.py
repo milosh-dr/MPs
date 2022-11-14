@@ -10,7 +10,7 @@ import numpy as np
 
 
 home = 'https://www.sejm.gov.pl/sejm9.nsf/'
-
+local_path = '/home/milosh-dr/code/MPs'
 
 
 def get_sessions_info():

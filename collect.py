@@ -78,7 +78,7 @@ def get_results(votes, start=None, stop=None, sleep_time=1):
         try:
             print('Start value not given. Loading the current status...')
             print('-'*30)
-            with open('status.txt', 'r') as file:
+            with open(os.path.join(local_path, 'status.txt'), 'r') as file:
                 status = file.read()
                 if status=='Done':
                     print('All data has been already parsed.')
@@ -104,7 +104,7 @@ def get_results(votes, start=None, stop=None, sleep_time=1):
             print('Problem with retrieving page no: {} (at vote level)'.format(i))
             print(f"Problematic url: {votes[i]['vote_url']}")
 
-            with open('status.txt', 'w') as file:
+            with open(os.path.join(local_path, 'status.txt'), 'w') as file:
                 file.write(str(i))
             if not vote_dfs:
                 return
@@ -132,7 +132,7 @@ def get_results(votes, start=None, stop=None, sleep_time=1):
                 print('Problem with retrieving page no: {} (at party-{} level)'.format(i, party_name))
                 print(f'Problematic url: {party_url}')
                 
-                with open('status.txt', 'w') as file:
+                with open(os.path.join(local_path, 'status.txt'), 'w') as file:
                     file.write(str(i))
                 if not vote_dfs:
                     return

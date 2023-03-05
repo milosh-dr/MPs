@@ -54,19 +54,19 @@ For other cases of absence, I filled them with the prevalent value of the party 
 
 ### Unlike the previous stages, I have chosen to keep the clustering part in a Jupyter Notebook, [clustering.ipynb][4], to enhance clarity.<br><br>
 
-[Cleaning vote_info dataframe][6]
+### Cleaning vote_info dataframe
 
 I have taken several significant steps in the analysis presented in clustering.ipynb. First, I cleaned up the vote_info dataframe to ensure that vote IDs were consistent across both dataframes and that the time was transformed into a convenient Pandas datetime format.
 
-[Dimensionality reduction][7]
+### Dimensionality reduction
 
 Second, I made an effort to reduce the dimensionality of the data. To reduce bias in the analysis, I decided to exclude votings related to numerous amendments, which accounted for more than **70%** of the total votings, and focus only on fully ready legislations, which represented less than **15%** of the total votings.
 
-[Clustering][8]
+### Clustering
 
 To determine the optimal grouping for members of parliament, I took the next step of fitting the KMeans algorithm multiple times with different configurations and evaluated the clusters using the average silhouette score. This helped me identify the most effective way to group the MPs in a meaningful way for the analysis.
 
-[Identifying crucial topics that bind opposition parties][9]
+### Identifying crucial topics that bind opposition parties
 
 After learning that the best clusters were achieved with only three groups, my next step was to explore the topics that could constitute the big alliance of opposition parties found in one of the clusters. To achieve this, I proposed two different approaches: finding key words that best describe those topics or extracting legislation names directly.
 
@@ -85,9 +85,9 @@ Overall, this project provides a comprehensive analysis of voting patterns among
 [1]: https://github.com/milosh-dr/MPs/blob/main/sample_main.py
 [2]: https://github.com/milosh-dr/MPs/blob/main/collect.py
 [3]: https://github.com/milosh-dr/MPs/blob/main/transform.py
-[4]: https://github.com/milosh-dr/MPs/blob/main/clustering.ipynb
+[4]: https://nbviewer.org/github/milosh-dr/MPs/blob/main/clustering.ipynb#topics
 [5]: https://github.com/milosh-dr/MPs/blob/main/stop.sh
-[6]: https://github.com/milosh-dr/MPs/blob/main/clustering.ipynb#C7
+<!-- [6]: https://github.com/milosh-dr/MPs/blob/main/clustering.ipynb#C7
 [7]: https://github.com/milosh-dr/MPs/blob/main/clustering.ipynb#C12
 [8]: https://github.com/milosh-dr/MPs/blob/main/clustering.ipynb#C19
-[9]: https://github.com/milosh-dr/MPs/blob/main/clustering.ipynb#C29
+[9]: https://github.com/milosh-dr/MPs/blob/main/clustering.ipynb#C29 -->

@@ -85,7 +85,7 @@ Overall, this project provides a comprehensive analysis of voting patterns among
 [1]: https://github.com/milosh-dr/MPs/blob/main/sample_main.py
 [2]: https://github.com/milosh-dr/MPs/blob/main/collect.py
 [3]: https://github.com/milosh-dr/MPs/blob/main/transform.py
-[4]: https://nbviewer.org/github/milosh-dr/MPs/blob/main/clustering.ipynb#topics
+[4]: https://nbviewer.org/github/milosh-dr/MPs/blob/main/clustering.ipynb
 [5]: https://github.com/milosh-dr/MPs/blob/main/stop.sh
 <!-- [6]: https://github.com/milosh-dr/MPs/blob/main/clustering.ipynb#C7
 [7]: https://github.com/milosh-dr/MPs/blob/main/clustering.ipynb#C12

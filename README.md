@@ -15,12 +15,12 @@ The oficial API of the Polish Parliament does not make the download of voting re
 The following line can be run from the shell to add the task to the crontab of the current user and trigger the process:
 
 ```sh
-(crontab -l 2> /dev/null; echo "0 20 * * * python3 YOUR_LOCAL_PATH/sample_main.py >> YOUR_LOCAL_PATH/log.txt") | crontab -
+(crontab -l 2> /dev/null; echo "0 20 * * * python3 YOUR_LOCAL_PATH/mps_main.py >> YOUR_LOCAL_PATH/log.txt") | crontab -
 ```
 
 ### To keep it organized, I broke down this part of the project into three separate files:
 
-- [sample_main.py][1]
+- [mps_main.py][1]
 - [collect.py][2]
 
     This file contains the functionality needed to gather the data.
@@ -28,7 +28,7 @@ The following line can be run from the shell to add the task to the crontab of t
 
     This file contains the functionality needed for data processing.
 
-I have also attached a script, [stop.sh][4], to this repository to clear the crontab from previously added task automatically. The main program *sample_main.py* checks the current status of the process at the beginning of each iteration and stops it when it is finished. It also reports all errors by saving them to *log.txt* file.
+I have also attached a script, [stop.sh][4], to this repository to clear the crontab from previously added task automatically. The main program *mps_main.py* checks the current status of the process at the beginning of each iteration and stops it when it is finished. It also reports all errors by saving them to *log.txt* file.
 
 By going through this file, we can understand any errors that may have occurred during the process, as there are inconsistencies on the website that may have disrupt it. However, as it happened only twice during my analysis, I decided not to take those votings into account.
 
@@ -76,11 +76,11 @@ The second approach involved extracting the names of the legislative proposals d
 
 ## Important notes and conclussion
 
-**Please ensure that you have updated the path to the sample_main.py file in the stop.sh script as well as the local_path variable in all Python files, if you plan to run this project locally on your machine.**
+**Please ensure that you have updated the path to the mps_main.py file in the stop.sh script as well as the local_path variable in all Python files, if you plan to run this project locally on your machine.**
 
 Overall, this project provides a comprehensive analysis of voting patterns among members of parliament, including identifying key topics and groupings. It serves as a useful tool for understanding political dynamics and trends in parliamentary decision-making. The code and data can be easily adapted for use in other countries or contexts. Any feedback is welcome and contributions to improve the project and expand its capabilities.
 
-[1]: https://github.com/milosh-dr/MPs/blob/main/sample_main.py
+[1]: https://github.com/milosh-dr/MPs/blob/main/mps_main.py
 [2]: https://github.com/milosh-dr/MPs/blob/main/collect.py
 [3]: https://github.com/milosh-dr/MPs/blob/main/transform.py
 [4]: https://github.com/milosh-dr/MPs/blob/main/stop.sh

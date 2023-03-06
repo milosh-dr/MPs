@@ -1,18 +1,36 @@
 import os
 
 import pandas as pd
+import numpy as np
 
 local_path = '/home/milosh-dr/code/MPs'
 
-def transform():
-    df = pd.read_csv(os.path.join(local_path, 'final_results.csv'))
+def transform(df):
+    """
+    Transforms and cleans data from the given pandas DataFrame.
+    Saves the transformed data to a file named 'transformed_results.csv' in the same directory.
 
-    # Getting rid of parsing errors
+    Parameters
+    ----------
+    df: pandas DataFrame
+        The input DataFrame containing the data to be transformed and cleaned.
+
+    Returns
+    -------
+    pandas DataFrame
+        The transformed DataFrame.
+
+    """
+    # Check if there is any data ready to be transformed
+    if df is None:
+        return
+
+    # Get rid of parsing errors
     nans = df.isna().sum()
     errors = nans[nans>0].index.tolist()
     df.drop(errors, axis=1, inplace=True)
 
-    # Mapping string descriptions into numeric representations
+    # Map string descriptions into numeric representations
     mapping = {}
     current_values = df.iloc[:,5].value_counts().index.tolist()
     new_values = [0, 1 , np.nan, .5]
@@ -24,10 +42,10 @@ def transform():
         df[col] = df[col].map(mapping)
 
 
-    # Computing party sizes
+    # Compute party sizes
     party_sizes = df[['Party', 'MPS']].groupby('Party').agg(len)['MPS']
 
-    # Computing total absences for all parties and all votes
+    # Compute total absences for all parties and all votes
     not_present = df.groupby('Party').apply(lambda x: x.isna().sum())
     not_present['party_size'] = party_sizes
 
@@ -50,12 +68,12 @@ def transform():
                         .dropna(axis=1, how='all')
                         .drop('party_size', axis=1))
 
-    # Filling missing values with 0 whenever 75% of party members were absent (big parties only)
+    # Fill missing values with 0 whenever 75% of party members were absent (big parties only)
     for vote in meaningful_absence.columns:
         for party in meaningful_absence.index:
             df.loc[(df['Party']==party), vote] = df.loc[(df['Party']== party), vote].fillna(0)
 
-    # In other cases filling missing values according to the voting strategy of the party
+    # In other cases fill missing values according to the voting strategy of the party
     df = df.groupby('Party', group_keys=False).apply(lambda x: x.fillna(round(x.mean(numeric_only=True))))
 
     # For very small parties we fill nans with 0.5
@@ -63,4 +81,7 @@ def transform():
     to_fill = nans[nans>0].index
     for col in to_fill:
         df[col] = df[col].fillna(0.5)
+    
+    df.to_csv(os.path.join(local_path, 'transformed_results.csv'), index=False)
+    
     return df

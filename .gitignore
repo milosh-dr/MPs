@@ -1,5 +1,5 @@
 MPs-checkpoint.ipynb
-*.txt
+status.txt
 *.csv
 test.py
 tmp.ipynb

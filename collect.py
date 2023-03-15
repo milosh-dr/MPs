@@ -5,6 +5,7 @@ import re
 import time
 import subprocess
 
+import yaml
 from bs4 import BeautifulSoup
 
 import pandas as pd
@@ -16,6 +17,9 @@ all parliamentary voting outcomes in 2022 and corresponding information.
 
 Functions
 ---------
+    get_config() -> Dict[str, Any]:
+    Returns a dictionary with the configuration for the program.
+
     get_sessions_info() -> List[Dict[str, Any]]:
     Returns a list of dictionaries with information on all parliamentary sessions in 2022.
     
@@ -33,13 +37,34 @@ Functions
 """
 
 
-home = 'https://www.sejm.gov.pl/sejm9.nsf/'
-local_path = '/home/milosh-dr/code/MPs'
+def get_config():
+    """
+    Returns a dictionary with the configuration needed for the program to run.
+
+    Returns
+    -------
+    dict
+        A dictionary containing the following keys:
+        - 'start': The index to the first voting to be parsed.
+        - 'stop': The index to the last voting to be parsed.
+        - 'sleep_time': The time to wait in seconds before parsing the next page.
+        - 'local_path': The local path to store the parsed data.
+        - 'home': The home address of the parliament's website.
+         
+    """
+    with open('config.yaml', 'r') as file:
+        config = yaml.safe_load(file)
+    return config
 
 
-def get_sessions_info():
+def get_sessions_info(home):
     """
     Returns a list of dictionaries with information on all parliamentary sessions in 2022.
+    
+    Parameters
+    ----------
+    home : str
+        The home address of the parliament's website.
 
     Returns
     -------
@@ -75,7 +100,7 @@ def get_sessions_info():
     return all_sessions
 
 
-def get_votes_info(sessions):
+def get_votes_info(sessions, home):
     """
     Returns a list of dictionaries with information on all votings at given sessions.
 
@@ -84,6 +109,8 @@ def get_votes_info(sessions):
     sessions : list
         A list of dictionaries with information on parliament sessions in 2022,
         including session number, session URL, and date.
+    home : str
+        The home address of the parliament's website.
 
     Returns
     -------
@@ -125,7 +152,7 @@ def get_votes_info(sessions):
     return all_votes
 
 
-def get_results(votes, start=None, stop=None, sleep_time=1):
+def get_results(votes, start, stop, sleep_time, home, local_path):
     '''
     Returns a Pandas DataFrame including all corresponding voting results
     obtained from parsing data from the URLs provided in a list of dictionaries.
@@ -140,6 +167,10 @@ def get_results(votes, start=None, stop=None, sleep_time=1):
         The index of the last voting to be parsed. Defaults to None, which means it will continue until the last vote.
     sleep_time : int, optional
         The time to wait in seconds before parsing the next page. Defaults to 1.
+    home : str
+        The home address of the parliament's website.
+    local_path : str
+        The local path to store the parsed data.
 
     Returns
     -------
@@ -242,13 +273,16 @@ def get_results(votes, start=None, stop=None, sleep_time=1):
     print('All done!')
     # Update status
     with open(os.path.join(local_path, 'status.txt'), 'w') as file:
-        file.write('Done')
+        if stop == len(votes):
+            file.write('Done')
+        else:
+            file.write(str(stop))
 
     results = pd.concat(vote_dfs, axis=1)
     return results
 
 
-def save(results):
+def save(results, local_path):
     """
     Save the provided Pandas DataFrame to a file.
 
@@ -256,6 +290,8 @@ def save(results):
     ----------
     results : pandas DataFrame
         The DataFrame to be saved.
+    local_path : str
+        The local path to store the parsed data.
 
     Returns
     -------
@@ -277,9 +313,14 @@ def save(results):
     return
 
 
-def concatenate():
+def concatenate(local_path):
     """
     Loads data from multiple files and concatenate it into a single pandas DataFrame.
+
+    Parameters
+    ----------
+    local_path : str
+        The local path to store the parsed data.
 
     Returns
     -------

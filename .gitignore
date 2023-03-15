@@ -5,6 +5,7 @@ test.py
 tmp.ipynb
 __pycache__
 venv/
+venv2/
 votes_info.csv
 .ipynb_checkpoints/
 backup_ideas.ipynb

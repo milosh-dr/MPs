@@ -3,9 +3,8 @@ import os
 import pandas as pd
 import numpy as np
 
-local_path = '/home/milosh-dr/code/MPs'
 
-def transform(df):
+def transform(df, local_path):
     """
     Transforms and cleans data from the given pandas DataFrame.
     Saves the transformed data to a file named 'transformed_results.csv' in the same directory.
@@ -14,6 +13,8 @@ def transform(df):
     ----------
     df: pandas DataFrame
         The input DataFrame containing the data to be transformed and cleaned.
+    local_path : str
+        The local path to store the parsed data.
 
     Returns
     -------

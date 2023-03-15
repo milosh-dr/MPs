@@ -1,0 +1,16 @@
+# Configuration
+
+# The start and stop variables define the range of pages to parse.
+# If not provided, the program will process all of them.
+start: null # change this to a specific value to start processing from
+stop: null # change this to a specific value to stop processing at
+
+# The sleep_time variable defines the amount of time to wait between processing each value.
+# The default value is 1 second.
+sleep_time: 1
+
+# The local_path variable defines the local path to store the parsed data.
+local_path: '/home/milosh-dr/code/MPs'
+
+# The home address of the parliament's website.
+home: 'https://www.sejm.gov.pl/sejm9.nsf/'

@@ -10,3 +10,4 @@ votes_info.csv
 .ipynb_checkpoints/
 backup_ideas.ipynb
 start.sh
+backup/
